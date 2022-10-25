@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Set title of page -->
+    <title>Liam O'Brien's Portfolio</title>
+
+    <!-- Set character/entity encoding -->
+    <meta charset="UTF-8">
+    <!-- Explicitly tells Microsoft Edge to render in Edge mode instead of some previous version -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Link style sheet (won't be filled until HW3) -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Add :skull: favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+</head>
+
+<body>
+    <main id="btn_container">
+        <button id="alert_btn">Alert</button>
+        <button id="confirm_btn">Confirm</button>
+        <button id="prompt_btn">Prompt</button>
+    </main>
+
+    <div>
+        <output id="btn_message"></output>
+    </div>
+
+    <dialog id="alert_dialog">
+        <form method="dialog">
+            <p>
+                <label>Alert Pressed!</label>
+            </p>
+            <menu>
+                <!-- This button closes the dialog b/c it's inside a form w/ method="dialog" -->
+                <button>Ok!</button>
+            </menu>
+        </form>
+    </dialog>
+
+    <dialog id="confirm_dialog">
+        <form method="dialog">
+            <p>
+                <label>Do you confirm this?</label>
+            </p>
+            <menu>
+                <!-- These buttons close the dialog b/c it's inside a form w/ method="dialog" -->
+                <button value="false">Cancel</button>
+                <button value="true">Ok</button>
+            </menu>
+        </form>
+    </dialog>
+
+    <dialog id="prompt_dialog">
+        <form method="dialog">
+            <p>
+                <label for="first_name">What is your name?</label>
+                <br>
+                <input id="first_name">
+            </p>
+            <menu>
+                <!-- These buttons close the dialog b/c it's inside a form w/ method="dialog" -->
+                <button id="prompt_cancel_btn">Cancel</button>
+                <button id="prompt_ok_btn">Ok</button>
+            </menu>
+        </form>
+    </dialog>
+
+    <!-- Link DOMPurify for handling user input -->
+    <script type="text/javascript" src="DOMPurify-main/dist/purify.min.js"></script>
+    <!-- Main Module -->
+    <script type="module">
+        import {alertPressed, confirmPressed, promptPressed, updateConfirmMessage, updatePromptReturn, defaultPromptMessage, updatePromptMessage} from './customdialog.js';
+        // show dialog box when clicked (and clear message)
+        document.getElementById('alert_btn').addEventListener('click', alertPressed);
+        document.getElementById('confirm_btn').addEventListener('click', confirmPressed);
+        document.getElementById('prompt_btn').addEventListener('click', promptPressed);
+
+        // Get the information from the confirm dialog and update message
+        document.getElementById('confirm_dialog').addEventListener('close', updateConfirmMessage);
+
+        // Update the form's return value as the input field gets typed in
+        document.getElementById('first_name').addEventListener('change', updatePromptReturn);
+
+        // Get the information from the prompt dialog and update message
+        document.getElementById('prompt_dialog').addEventListener('close', updatePromptMessage);
+
+        // change the form's return value to the default message if cancel button is clicked
+        document.getElementById('prompt_cancel_btn').addEventListener('click', defaultPromptMessage);
+    </script>
+</body>
+</html>
